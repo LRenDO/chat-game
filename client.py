@@ -1,22 +1,37 @@
-# Sockets Chat Project Client
+# Socket Chat Project - Client
 # Class: CS372 Introduction to Computer Networks
 # Author: Ren Demeis-Ortiz
-# Description:
+# Description: This is part of a basic client / server chat where you can open
+#              a window to run server.py and one to run client.py and the
+#              terminals can send text back and forth. This file is for client
+#              side of the chat. It connects to localhost with port 2222. If
+#              needed IP address and port can be changed in the request_detail
+#              before run_client() is called. Requires socket and ChatSocket
+#              modules.
+#
 # Sources for socket setup:
 #           My earlier CS372 sockets project
 #
 #           Kurose and Ross, Computer Networking: A Top-Down Approach,
 #           7th Edition,Pearson Chapter 2 Section 7
-#
-# Sources for looping through data on send and receive:
-#           https://docs.python.org/3.4/howto/sockets.html
-
 import socket as s
 import ChatSocket as cs
 
 def run_client(req_detail):
+    """
+    Runs the client side of the client / server terminal chat.
+
+    Prompts user for message to send to server, waits for a reply from server.
+    '/q' is the command to quit and can be initiated by client or server side.
+    Using this command closes the server side and the client side.
+
+    :param req_detail: Dictionary with two elements. One for the server address
+        and one for the server port.
+        {"host_name": string of server's address,
+         "serv_port": string of server's port }
+    :return:
+    """
     print('Connecting...')
-    quit_cmd = '/q'
     # Instantiate socket with type of IPv4 and TCP
     socket = s.socket(s.AF_INET, s.SOCK_STREAM)
 
@@ -27,6 +42,7 @@ def run_client(req_detail):
     print('Type /q to quit. Otherwise enter your message and press enter.')
 
     socket = cs.ChatSocket(socket)
+    quit_cmd = socket.QUIT_CMD
 
     while True:
         socket.send_msg()
@@ -35,44 +51,6 @@ def run_client(req_detail):
         socket.receive_msg()
         if socket.get_response().decode() == quit_cmd:
             break
-        # # Send Message
-        # user_input = input('You: ')
-        # message = len(user_input)
-        #
-        # # Source: https://www.delftstack.com/howto/python/python-leading-zeros/
-        # message = f'{message:08d}'
-        # message += user_input
-        #
-        # sent = 0
-        # while sent < len(message):
-        #     sent += socket.send(message.encode())
-        #
-        # if user_input == quit_cmd:
-        #     socket.close()
-        #     print('Connection closed')
-        #     break
-
-        # response = b''
-        #
-        # # Get Response length
-        # while len(response) < 8:
-        #         response += socket.recv(8-len(response))
-        #
-        # mess_len = int(response)
-        #
-        # # Get incoming message
-        # response = socket.recv(1024)
-        #
-        # while len(response) < mess_len:
-        #     response += socket.recv(1024)
-        #
-        # if response.decode() == quit_cmd:
-        #     socket.close()
-        #     print('Connection closed by other user')
-        #     break
-        #
-        # # Print Response
-        # print('Other User: ', response.decode())
 
     return
 

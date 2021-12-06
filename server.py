@@ -1,22 +1,35 @@
-# Sockets Chat Project Server
+# Socket Chat Project - Server
 # Class: CS372 Introduction to Computer Networks
 # Author: Ren Demeis-Ortiz
-# Description:
+# Description: This is part of a basic client / server chat where you can open
+#              a window to run server.py and one to run client.py and the
+#              terminals can send text back and forth. This file is for server
+#              side of the chat. It listens with port 2222. Port can be changed
+#              by changing serv_port in the run_server() function. Requires
+#              socket and ChatSocket modules.
+#
 # Sources for socket setup:
 #           My earlier CS372 sockets project
 #
 #           Kurose and Ross, Computer Networking: A Top-Down Approach,
 #           7th Edition,Pearson Chapter 2 Section 7
-#
-# Sources for looping through data on send and receive:
-#           https://docs.python.org/3.4/howto/sockets.html
-
 import socket as s
 import ChatSocket as cs
+import Board as b
 
 def run_server():
+    """
+    Runs the server side of the client / server terminal chat.
+
+    Waits for client to connect and initiate chat, displays client's message
+    and then waits for user to input message they want to send to back to the
+    client. Process repeats until either the client or server quits. '/q' is
+    the command to quit and can be initiated by client or server side. Using
+    this command closes the server side and the client side.
+
+    :return:
+    """
     print('Awaiting connection...')
-    quit_cmd = '/q'
     # Instantiate socket with type of IPv4 and TCP, set port to be reused,
     # and bind address
     # Source for setsockopt: Project Instructions and Specifications
@@ -33,6 +46,8 @@ def run_server():
     print('Awaiting message...')
 
     conn = cs.ChatSocket(conn)
+    quit_cmd = conn.QUIT_CMD
+    conn.set_is_server(True)
 
     while True:
         conn.receive_msg()
@@ -42,42 +57,6 @@ def run_server():
         if conn.get_user_input() == quit_cmd:
             break
 
-        # # Get incoming message length
-        # incoming_message = b''
-        # while len(incoming_message) < 8:
-        #         incoming_message += conn.recv(8-len(incoming_message))
-        #
-        # mess_len = int(incoming_message)
-        #
-        # # Get incoming message
-        # incoming_message = conn.recv(1024)
-        #
-        # while len(incoming_message) < mess_len:
-        #     incoming_message += conn.recv(1024)
-        #
-        # if incoming_message.decode() == quit_cmd:
-        #     conn.close()
-        #     print("Connection closed by other user.")
-        #     break
-        #
-        # print('Other User: ', incoming_message.decode())
-        #
-        # # Send Reply
-        # user_input = input('You: ')
-        # message = len(user_input)
-        #
-        # # Source: https://www.delftstack.com/howto/python/python-leading-zeros/
-        # message = f'{message:08d}'
-        # message += user_input
-        #
-        # sent = 0
-        # while sent < len(message):
-        #     sent += conn.send(message.encode())
-        #
-        # if user_input == quit_cmd:
-        #     conn.close()
-        #     print("Connection Closed")
-        #     break
     return
 
 if __name__ == '__main__':
