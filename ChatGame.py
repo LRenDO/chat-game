@@ -1,4 +1,8 @@
-import Board as b
+# Socket Chat Project - Chat Game Class
+# Class: CS372 Introduction to Computer Networks
+# Author: Ren Demeis-Ortiz
+# Description: This is a chat based tic tac toe game.
+
 class ChatGame:
     PLAY = 'Play'
     X_WINS = 'x Wins!'

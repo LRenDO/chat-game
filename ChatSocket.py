@@ -9,7 +9,7 @@
 #           https://docs.python.org/3.4/howto/sockets.html
 import ChatGame as cg
 import random
-# Todo - working on connecting chat game to this class for a game option
+
 class ChatSocket:
     QUIT_CMD = '/q'
     PLAY_CMD = '/play'

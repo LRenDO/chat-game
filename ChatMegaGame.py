@@ -1,4 +1,10 @@
-import Board as b
+# Socket Chat Project - Chat Mega Game Class
+# Class: CS372 Introduction to Computer Networks
+# Author: Ren Demeis-Ortiz
+# Description: This is a chat based tic tac toe game.
+#              except there are 9 boards and you must win
+#              on 3 boards in a line.
+
 class ChatGame:
     PLAY = 'Play'
     X_WINS = 'x Wins'

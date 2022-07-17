@@ -1,3 +1,8 @@
+# Socket Chat Project - Board Class
+# Class: CS372 Introduction to Computer Networks
+# Author: Ren Demeis-Ortiz
+# Description: This is a chat based tic tac toe game.
+
 class Board:
 
     def __init__(self, board_ID):
